@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">UIDemo</string>
+    <string name="tvOutput">0</string>
+    <string name="bnAdd">Add</string>
+    <string name="bnTake">Take</string>
+    <string name="bnGrow">Grow</string>
+    <string name="bnShrink">Shrink</string>
+    <string name="bnReset">Reset</string>
+    <string name="bnShow">Show</string>
+    <string name="bnHide">Hide</string>
+</resources>
