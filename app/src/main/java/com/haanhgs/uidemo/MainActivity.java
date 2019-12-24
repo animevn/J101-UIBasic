@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Button bnShow;
     @BindView(R.id.bnReset)
     Button bnReset;
-
     private static final float original = 15;
     private float size = 15;
     private int count;
