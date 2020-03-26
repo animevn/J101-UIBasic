@@ -40,4 +40,8 @@ public class ViewModel extends AndroidViewModel {
         repo.reset();
     }
 
+    public void toggle(){
+        repo.toggle();
+    }
+
 }

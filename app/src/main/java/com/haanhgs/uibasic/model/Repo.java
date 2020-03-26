@@ -41,5 +41,10 @@ public class Repo {
         liveData.setValue(model);
     }
 
+    public void toggle(){
+        model.setShow(!model.isShow());
+        liveData.setValue(model);
+    }
+
 
 }

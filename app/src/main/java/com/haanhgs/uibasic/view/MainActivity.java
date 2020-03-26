@@ -38,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getModel().observe(this, model -> {
             tvOutput.setText(String.valueOf(model.getCount()));
             tvOutput.setTextSize(model.getSize());
+            if (model.isShow()){
+                tvOutput.setVisibility(View.VISIBLE);
+                bnShow.setText(R.string.bnHide);
+            }else {
+                tvOutput.setVisibility(View.INVISIBLE);
+                bnShow.setText(R.string.bnShow);
+            }
         });
     }
 
@@ -57,16 +64,6 @@ public class MainActivity extends AppCompatActivity {
         initViewModel();
     }
 
-    private void toggle() {
-        if (tvOutput.getVisibility() == View.VISIBLE) {
-            tvOutput.setVisibility(View.INVISIBLE);
-            bnShow.setText(R.string.bnShow);
-        } else {
-            tvOutput.setVisibility(View.VISIBLE);
-            bnShow.setText(R.string.bnHide);
-        }
-    }
-
     @OnClick({R.id.bnAdd, R.id.bnTake, R.id.bnGrow, R.id.bnShrink, R.id.bnShow, R.id.bnReset})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.shrink();
                 break;
             case R.id.bnShow:
-                toggle();
+                viewModel.toggle();
                 break;
             case R.id.bnReset:
                 viewModel.reset();
