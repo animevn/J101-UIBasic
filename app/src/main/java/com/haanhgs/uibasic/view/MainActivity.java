@@ -1,11 +1,14 @@
-package com.haanhgs.uibasic;
+package com.haanhgs.uibasic.view;
 
 import android.os.Bundle;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.haanhgs.uibasic.R;
+import com.haanhgs.uibasic.viewmodel.ViewModel;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -14,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tvOutput)
     TextView tvOutput;
-    @BindView(R.id.clUp)
-    ConstraintLayout clUp;
     @BindView(R.id.bnAdd)
     Button bnAdd;
     @BindView(R.id.bnTake)
@@ -28,43 +29,32 @@ public class MainActivity extends AppCompatActivity {
     Button bnShow;
     @BindView(R.id.bnReset)
     Button bnReset;
-    private static final float original = 15;
-    private float size = 15;
-    private int count;
+
+    private ViewModel viewModel;
+
+    private void initViewModel(){
+        viewModel = new ViewModelProvider(this).get(ViewModel.class);
+
+        viewModel.getModel().observe(this, model -> {
+            tvOutput.setText(String.valueOf(model.getCount()));
+            tvOutput.setTextSize(model.getSize());
+        });
+    }
+
+    private void hideActionBarInLandscapeMode(){
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        if (rotation == Surface.ROTATION_270 || rotation == Surface.ROTATION_90){
+            if (getSupportActionBar() != null) getSupportActionBar().hide();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        tvOutput.setText(String.format("%s", 0));
-    }
-
-    private void add() {
-        count++;
-        tvOutput.setText(String.format("%s", count));
-    }
-
-    private void take() {
-        count--;
-        tvOutput.setText(String.format("%s", count));
-    }
-
-    private void grow() {
-        size += 2;
-        tvOutput.setTextSize(size);
-    }
-
-    private void shrink() {
-        size -= 2;
-        tvOutput.setTextSize(size);
-    }
-
-    private void reset() {
-        count = 0;
-        size = original;
-        tvOutput.setTextSize(size);
-        tvOutput.setText(String.format("%s", count));
+        hideActionBarInLandscapeMode();
+        initViewModel();
     }
 
     private void toggle() {
@@ -81,22 +71,22 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bnAdd:
-                add();
+                viewModel.add();
                 break;
             case R.id.bnTake:
-                take();
+                viewModel.take();
                 break;
             case R.id.bnGrow:
-                grow();
+                viewModel.grow();
                 break;
             case R.id.bnShrink:
-                shrink();
+                viewModel.shrink();
                 break;
             case R.id.bnShow:
                 toggle();
                 break;
             case R.id.bnReset:
-                reset();
+                viewModel.reset();
                 break;
         }
     }
