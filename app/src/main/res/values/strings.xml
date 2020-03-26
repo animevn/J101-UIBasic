@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UIDemo</string>
+    <string name="app_name">UI Basic</string>
     <string name="tvOutput">0</string>
     <string name="bnAdd">Add</string>
     <string name="bnTake">Take</string>

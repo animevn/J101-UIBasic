@@ -1,4 +1,4 @@
-package com.haanhgs.uidemo;
+package com.haanhgs.uibasic;
 
 import android.content.Context;
 

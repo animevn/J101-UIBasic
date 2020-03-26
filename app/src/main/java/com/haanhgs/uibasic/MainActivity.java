@@ -1,4 +1,4 @@
-package com.haanhgs.uidemo;
+package com.haanhgs.uibasic;
 
 import android.os.Bundle;
 import android.view.View;
