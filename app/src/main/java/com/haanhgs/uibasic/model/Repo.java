@@ -47,7 +47,6 @@ public class Repo {
                 liveData.postValue(model);
             }
         });
-
     }
 
     public void reset(){
