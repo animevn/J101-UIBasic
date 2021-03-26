@@ -1,20 +1,12 @@
 package com.haanhgs.uibasic.viewmodel;
 
-import android.app.Application;
 import com.haanhgs.uibasic.model.Model;
 import com.haanhgs.uibasic.model.Repo;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class ViewModel extends AndroidViewModel {
+public class ViewModel extends androidx.lifecycle.ViewModel {
 
-    private Repo repo;
-
-    public ViewModel(@NonNull Application application) {
-        super(application);
-        repo = new Repo();
-    }
+    private final Repo repo = new Repo();
 
     public LiveData<Model> getModel(){
         return repo.getLiveData();

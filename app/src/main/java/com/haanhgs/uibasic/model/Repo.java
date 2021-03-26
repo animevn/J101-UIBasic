@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 
 public class Repo {
 
-    private MutableLiveData<Model> liveData = new MutableLiveData<>();
-    private Model model = new Model();
+    private final MutableLiveData<Model> liveData = new MutableLiveData<>();
+    private final Model model = new Model();
 
     public Repo() {
         liveData.setValue(model);

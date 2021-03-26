@@ -3,88 +3,51 @@ package com.haanhgs.uibasic.view;
 import android.os.Bundle;
 import android.view.Surface;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import com.haanhgs.uibasic.R;
+import com.haanhgs.uibasic.databinding.ActivityMainBinding;
 import com.haanhgs.uibasic.viewmodel.ViewModel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.tvOutput)
-    TextView tvOutput;
-    @BindView(R.id.bnAdd)
-    Button bnAdd;
-    @BindView(R.id.bnTake)
-    Button bnTake;
-    @BindView(R.id.bnGrow)
-    Button bnGrow;
-    @BindView(R.id.bnShrink)
-    Button bnShrink;
-    @BindView(R.id.bnShow)
-    Button bnShow;
-    @BindView(R.id.bnReset)
-    Button bnReset;
-
+    private ActivityMainBinding binding;
     private ViewModel viewModel;
 
-    private void initViewModel(){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         viewModel = new ViewModelProvider(this).get(ViewModel.class);
 
+        hideActionBarInLandscapeMode();
         viewModel.getModel().observe(this, model -> {
-            tvOutput.setText(String.valueOf(model.getCount()));
-            tvOutput.setTextSize(model.getSize());
+            binding.tvOutput.setText(String.valueOf(model.getCount()));
+            binding.tvOutput.setTextSize(model.getSize());
             if (model.isShow()){
-                tvOutput.setVisibility(View.VISIBLE);
-                bnShow.setText(R.string.bnHide);
+                binding.tvOutput.setVisibility(View.VISIBLE);
+                binding.bnShow.setText(R.string.bnHide);
             }else {
-                tvOutput.setVisibility(View.INVISIBLE);
-                bnShow.setText(R.string.bnShow);
+                binding.tvOutput.setVisibility(View.INVISIBLE);
+                binding.bnShow.setText(R.string.bnShow);
             }
         });
+
+        binding.bnAdd.setOnClickListener(v -> viewModel.add());
+        binding.bnTake.setOnClickListener(v -> viewModel.take());
+        binding.bnGrow.setOnClickListener(v -> viewModel.grow());
+        binding.bnShrink.setOnClickListener(v -> viewModel.shrink());
+        binding.bnShow.setOnClickListener(v -> viewModel.toggle());
+        binding.bnReset.setOnClickListener(v -> viewModel.reset());
     }
 
     private void hideActionBarInLandscapeMode(){
-        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        int rotation = getDisplay().getRotation();
         if (rotation == Surface.ROTATION_270 || rotation == Surface.ROTATION_90){
             if (getSupportActionBar() != null) getSupportActionBar().hide();
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        hideActionBarInLandscapeMode();
-        initViewModel();
-    }
-
-    @OnClick({R.id.bnAdd, R.id.bnTake, R.id.bnGrow, R.id.bnShrink, R.id.bnShow, R.id.bnReset})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.bnAdd:
-                viewModel.add();
-                break;
-            case R.id.bnTake:
-                viewModel.take();
-                break;
-            case R.id.bnGrow:
-                viewModel.grow();
-                break;
-            case R.id.bnShrink:
-                viewModel.shrink();
-                break;
-            case R.id.bnShow:
-                viewModel.toggle();
-                break;
-            case R.id.bnReset:
-                viewModel.reset();
-                break;
-        }
-    }
 }
