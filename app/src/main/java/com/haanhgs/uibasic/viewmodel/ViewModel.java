@@ -36,4 +36,8 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
         repo.toggle();
     }
 
+    public void shutdownExecutor(){
+        repo.shutdownExecutor();
+    }
+
 }

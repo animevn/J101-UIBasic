@@ -3,6 +3,7 @@ package com.haanhgs.uibasic.model;
 import androidx.lifecycle.MutableLiveData;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Repo {
 
@@ -62,6 +63,17 @@ public class Repo {
             model.setShow(!model.isShow());
             liveData.postValue(model);
         });
+    }
+
+    public void shutdownExecutor(){
+        executor.shutdown();
+        try{
+            if (!executor.awaitTermination(1000, TimeUnit.MILLISECONDS)){
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

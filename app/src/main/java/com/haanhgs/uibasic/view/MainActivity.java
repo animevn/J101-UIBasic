@@ -50,4 +50,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        viewModel.shutdownExecutor();
+        super.onDestroy();
+    }
 }
