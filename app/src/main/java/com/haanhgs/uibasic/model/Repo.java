@@ -1,9 +1,12 @@
 package com.haanhgs.uibasic.model;
 
 import androidx.lifecycle.MutableLiveData;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Repo {
 
+    private final ExecutorService executor = Executors.newCachedThreadPool();
     private final MutableLiveData<Model> liveData = new MutableLiveData<>();
     private final Model model = new Model();
 
@@ -16,34 +19,49 @@ public class Repo {
     }
 
     public void add(){
-        model.setCount(model.getCount() + 1);
-        liveData.setValue(model);
+        executor.execute(() -> {
+            model.setCount(model.getCount() + 1);
+            liveData.postValue(model);
+        });
     }
 
     public void take(){
-        model.setCount(model.getCount() - 1);
-        liveData.setValue(model);
+        executor.execute(()->{
+            model.setCount(model.getCount() - 1);
+            liveData.postValue(model);
+        });
     }
 
     public void grow(){
-        model.setSize(model.getSize() + 2);
-        liveData.setValue(model);
+        executor.execute(()->{
+            model.setSize(model.getSize() + 2);
+            liveData.postValue(model);
+        });
     }
 
     public void shrink(){
-        if (model.getSize() >= 2) model.setSize(model.getSize() - 2);
-        liveData.setValue(model);
+        executor.execute(()->{
+            if (model.getSize() >= 2) {
+                model.setSize(model.getSize() - 2);
+                liveData.postValue(model);
+            }
+        });
+
     }
 
     public void reset(){
-        model.setCount(0);
-        model.setSize(Model.SIZE);
-        liveData.setValue(model);
+        executor.execute(()->{
+            model.setCount(0);
+            model.setSize(Model.SIZE);
+            liveData.postValue(model);
+        });
     }
 
     public void toggle(){
-        model.setShow(!model.isShow());
-        liveData.setValue(model);
+        executor.execute(()->{
+            model.setShow(!model.isShow());
+            liveData.postValue(model);
+        });
     }
 
 
